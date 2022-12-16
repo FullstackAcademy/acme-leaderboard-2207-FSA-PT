@@ -88,7 +88,8 @@ Point.belongsTo(Game);
 
 const init = async()=> {
   try {
-    await client.connect();
+    console.log(process.env.REDIS_URL);
+    await client.connect({ url: process.env.REDIS_URL });
     await client.flushAll();
     await conn.sync({ force: true });
     const [moe, lucy, larry, game1, game2] = await Promise.all([

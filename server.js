@@ -21,7 +21,7 @@ const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/the
 
 const { createClient } = require('redis');
 
-const client = createClient();
+const client = createClient({ url: process.env.REDIS_URL });
 
 const User = conn.define('user', {
   id: {
@@ -89,7 +89,7 @@ Point.belongsTo(Game);
 const init = async()=> {
   try {
     console.log(process.env.REDIS_URL);
-    await client.connect({ url: process.env.REDIS_URL });
+    await client.connect();
     await client.flushAll();
     await conn.sync({ force: true });
     const [moe, lucy, larry, game1, game2] = await Promise.all([
